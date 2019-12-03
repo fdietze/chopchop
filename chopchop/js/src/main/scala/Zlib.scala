@@ -2,18 +2,20 @@ package chopchop
 
 import chopchop.facades.pako.pako
 
+import scala.scalajs.js
 import scala.scalajs.js.typedarray.byteArray2Int8Array
 import scala.util.Try
 import scala.scalajs.js.typedarray.Uint8Array
 import scala.scalajs.js.typedarray.TypedArrayBuffer
 import scala.scalajs.js.typedarray.Int8Array
+import scala.scalajs.js.JSConverters._
 
 object Zlib extends Compressor {
   // http://nodeca.github.io/pako/
   
   //TODO: less copying!
   private def uint8ArrayToArrayByte(data: Uint8Array):Array[Byte] = {
-    TypedArrayBuffer.wrap(new Int8Array(data)).array
+    new Int8Array(data).toArray
   }
 
   private def arrayByteToUint8Array(data: Array[Byte]):Uint8Array = {

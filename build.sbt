@@ -46,7 +46,6 @@ lazy val commonSettings = Seq(
 
 
 lazy val chopchop = crossProject(JSPlatform, JVMPlatform).crossType(CrossType.Full)
-  .enablePlugins(ScalaJSPlugin, ScalaJSBundlerPlugin)
   .settings(commonSettings)
   .settings(
     name := "chopchop",
@@ -55,6 +54,7 @@ lazy val chopchop = crossProject(JSPlatform, JVMPlatform).crossType(CrossType.Fu
       Deps.scalaTest.value % Test ::
       Nil
   )
+  .jsConfigure(_.enablePlugins(ScalaJSPlugin, ScalaJSBundlerPlugin))
   .jsSettings(
     useYarn := true,
     npmDependencies in Compile ++= (
@@ -67,3 +67,5 @@ lazy val chopchop = crossProject(JSPlatform, JVMPlatform).crossType(CrossType.Fu
       s"-P:scalajs:mapSourceURI:$local->$remote"
     }
   )
+
+Global / onChangedBuildSource := ReloadOnSourceChanges
