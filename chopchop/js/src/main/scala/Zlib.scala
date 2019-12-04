@@ -12,13 +12,13 @@ import scala.scalajs.js.JSConverters._
 
 object Zlib extends Compressor {
   // http://nodeca.github.io/pako/
-  
+
   //TODO: less copying!
-  private def uint8ArrayToArrayByte(data: Uint8Array):Array[Byte] = {
+  private def uint8ArrayToArrayByte(data: Uint8Array): Array[Byte] = {
     new Int8Array(data).toArray
   }
 
-  private def arrayByteToUint8Array(data: Array[Byte]):Uint8Array = {
+  private def arrayByteToUint8Array(data: Array[Byte]): Uint8Array = {
     new Uint8Array(byteArray2Int8Array(data))
   }
 
@@ -28,11 +28,11 @@ object Zlib extends Compressor {
     uint8ArrayToArrayByte(output)
   }
 
-  def decompress(data: Array[Byte]): Try[Array[Byte]] = {
+  def decompress(data: Array[Byte]): Either[Throwable, Array[Byte]] = {
     Try{
-    val input = arrayByteToUint8Array(data)
-    val output = pako.inflate(input)
-    uint8ArrayToArrayByte(output)
-    }
+      val input = arrayByteToUint8Array(data)
+      val output = pako.inflate(input)
+      uint8ArrayToArrayByte(output)
+    }.toEither
   }
 }

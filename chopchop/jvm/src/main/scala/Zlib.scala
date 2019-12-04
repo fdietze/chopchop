@@ -23,7 +23,7 @@ object Zlib extends Compressor {
     outputStream.toByteArray()
   }
 
-  def decompress(data: Array[Byte]): Try[Array[Byte]] = {
+  def decompress(data: Array[Byte]): Either[Throwable, Array[Byte]] = {
     Try{
       val inflater = new Inflater()
       inflater.setInput(data)
@@ -35,6 +35,6 @@ object Zlib extends Compressor {
       }
       outputStream.close()
       outputStream.toByteArray();
-    }
+    }.toEither
   }
 }
